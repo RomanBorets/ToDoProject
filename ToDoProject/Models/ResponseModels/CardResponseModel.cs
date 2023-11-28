@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using ToDoProject.Models.Enums;
 
 namespace ToDoProject.Models.ResponseModels
 {
@@ -12,5 +13,8 @@ namespace ToDoProject.Models.ResponseModels
 
         [JsonProperty("description")]
         public string Description { get; set; }
+
+        [JsonProperty("status")]
+        public CardStatus Status { get; set; }
     }
 }

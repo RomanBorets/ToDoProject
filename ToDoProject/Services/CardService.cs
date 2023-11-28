@@ -1,5 +1,6 @@
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using ToDoProject.Common.Extensions;
 using ToDoProject.Domain;
 using ToDoProject.Domain.Entities.Cards;
 using ToDoProject.Models.Enums;
@@ -31,8 +32,7 @@ namespace ToDoProject.Services.Services
             {
                 try
                 {
-                    //_userId = context.User.GetUserId();
-                    _userId = 1;
+                    _userId = context.User.GetUserId();
                 }
                 catch
                 {
@@ -45,7 +45,9 @@ namespace ToDoProject.Services.Services
         {
             var card = _mapper.Map<Card>(model);
 
-            card.CreatorId = _userId;
+            //Not assigning creator because there is no users in database
+            //card.CreatorId = _userId;
+
             card.CreatedAt = DateTime.UtcNow;
             card.Status = CardStatus.ToDo;
 
@@ -57,7 +59,7 @@ namespace ToDoProject.Services.Services
 
         public async Task<CardResponseModel> EditCard(int cardId, CardRequestModel model)
         {
-            var card = _unitOfWork.Repository<Card>().Get(x => x.Id == cardId && x.CreatorId == _userId.Value)
+            var card = _unitOfWork.Repository<Card>().Get(x => x.Id == cardId)
                .FirstOrDefault();
 
             if (card == null)
@@ -73,7 +75,7 @@ namespace ToDoProject.Services.Services
 
         public async Task<CardResponseModel> EditCardStatus(int cardId, CardStatus status)
         {
-            var card = _unitOfWork.Repository<Card>().Get(x => x.Id == cardId && x.CreatorId == _userId.Value)
+            var card = _unitOfWork.Repository<Card>().Get(x => x.Id == cardId)
                .FirstOrDefault();
 
             if (card == null)

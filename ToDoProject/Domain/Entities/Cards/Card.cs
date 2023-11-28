@@ -30,7 +30,7 @@ namespace ToDoProject.Domain.Entities.Cards
         #region Navigation properties
 
         [ForeignKey("CreatorId")]
-        public virtual ApplicationUser Creator { get; set; }
+        public virtual ApplicationUser? Creator { get; set; }
 
         #endregion
     }
